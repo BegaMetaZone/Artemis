@@ -1,5 +1,5 @@
 RegisterNetEvent("RMSetVehicleProp")
-AddEventHandler("RMSetVehicleProp", function RMSetVehicleProp(vehicle, props)
+AddEventHandler("RMSetVehicleProp", function (vehicle, props)
     -- https://github.com/esx-framework/es_extended/tree/v1-final COPYRIGHT
     if DoesEntityExist(vehicle) then
 		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
@@ -98,7 +98,7 @@ AddEventHandler("RMSetVehicleProp", function RMSetVehicleProp(vehicle, props)
 end)
 
 RegisterNetEvent("RMGetVehicleProperties")
-AddEventHandler("RMGetVehicleProperties", function RMGetVehicleProperties(vehicle)
+AddEventHandler("RMGetVehicleProperties", function (vehicle)
     if DoesEntityExist(vehicle) then
         -- https://github.com/esx-framework/es_extended/tree/v1-final COPYRIGHT
         if DoesEntityExist(vehicle) then
