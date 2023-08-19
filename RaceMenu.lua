@@ -505,78 +505,6 @@ Arta.Timetrials.Races = races
 ---------------------
 Arta.Player.Name = GetPlayerName(PlayerId())
 
-function Arta.PaintshopMenu()
-    local txd = CreateRuntimeTxd("scaleformui")
-    local duiPanel = CreateDui("https://i.imgur.com/mH0Y65C.gif", 288, 160)
-    CreateRuntimeTextureFromDuiHandle(txd, "sidepanel", GetDuiHandle(duiPanel))
-	local duiBanner = CreateDui("https://i.imgur.com/3yrFYbF.gif", 288, 160)
-	CreateRuntimeTextureFromDuiHandle(txd, "menuBanner", GetDuiHandle(duiBanner))
-
-    local currentTransition = "TRANSITION_OUT"
-
-    Arta.Menus.PaintMenu = UIMenu.New("Paintshop", "Powered by Awesome ScaleformUI", 50, 50, true, "scaleformui", "menuBanner", true)
-    Arta.Menus.PaintMenu:MaxItemsOnScreen(7)
-    Arta.Menus.PaintMenu:MouseControlsEnabled(true)
-    Arta.Menus.PaintMenu:MouseEdgeEnabled(false)
-    Arta.Menus.PaintMenu:ControlDisablingEnabled(true)
-    Arta.Menus.PaintMenu:BuildingAnimation(MenuBuildingAnimation.RIGHT)
-    Arta.Menus.PaintMenu:AnimationType(MenuAnimationType.CUBIC_INOUT)
-	Arta.Menus.PaintMenu:ScrollingType(MenuScrollingType.CLASSIC)
-	Arta.Menus.PaintMenu:CounterColor(Colours.HUD_COLOUR_YELLOW)
-
-    --Paintshop
-    
-    Arta.PaintMenuItems = {}
-    --local colorpanel = UIVehicleColorPickerPanel.New(side, title, color)
-    
-    --colorpanel.PickerSelect = function(item, panel, colorIndex)
-    Arta.PaintMenuItems.PaintPanelItem = UIMenuItem.New("Change Color", "It can be whatever item you want it to be")
-    --local colorPanel = UIMenuColorPanel.New("Color Panel Example", 1, 0)
-    Arta.Menus.PaintMenu:AddItem(Arta.PaintMenuItems.PaintPanelItem)
-    --Arta.PaintMenuItems.PaintPanelItem:AddPanel(colorPanel)
-
-    Arta.Menus.PaintMenu:Visible(true)
-	Arta.Menus.PaintMenu:Title("Scaleform~HUD_COLOUR_PURPLE~UI")
-	Arta.Menus.PaintMenu:Subtitle("~p~Colored ~HUD_COLOUR_ORANGE~Subtitle")
-    menu:SwitchTo(Arta.Menus.PaintMenu, 1, true)
-end
-
-function Arta.LSCustoms()
-    local txd = CreateRuntimeTxd("scaleformui")
-    local duiPanel = CreateDui("https://i.imgur.com/mH0Y65C.gif", 288, 160)
-    CreateRuntimeTextureFromDuiHandle(txd, "sidepanel", GetDuiHandle(duiPanel))
-	local duiBanner = CreateDui("https://i.imgur.com/3yrFYbF.gif", 288, 160)
-	CreateRuntimeTextureFromDuiHandle(txd, "menuBanner", GetDuiHandle(duiBanner))
-    
-    local currentTransition = "TRANSITION_OUT"
-    --- Customs Menu 
-        Arta.Menus.LSCustoms = UIMenu.New("LS Customs", "Powered by Awesome ScaleformUI", 50, 50, true, "scaleformui", "menuBanner", true)
-            Arta.Menus.LSCustoms:MaxItemsOnScreen(7)
-            Arta.Menus.LSCustoms:MouseControlsEnabled(true)
-            Arta.Menus.LSCustoms:MouseEdgeEnabled(false)
-            Arta.Menus.LSCustoms:ControlDisablingEnabled(true)
-            Arta.Menus.LSCustoms:BuildingAnimation(MenuBuildingAnimation.RIGHT)
-            Arta.Menus.LSCustoms:AnimationType(MenuAnimationType.CUBIC_INOUT)
-            Arta.Menus.LSCustoms:ScrollingType(MenuScrollingType.CLASSIC)
-            Arta.Menus.LSCustoms:CounterColor(Colours.HUD_COLOUR_YELLOW)
-            print("ls function 1") -- debug 
-            Arta.LSCustomsMenuItems = {}
-            PaintshopMMItem = UIMenuItem.New("Paintshop","Paint it")
-            Arta.Menus.LSCustoms:AddItem(PaintshopMMItem)
-                        print("ls function") -- debug
-            --
-            PaintshopMMItem.Activated = function(menu, item)
-                --Arta.Menus.LSCustoms.CloseAndClearHistory()
-                Arta.PaintshopMenu()
-                --menu:SwitchTo(Arta.Menus.PaintMenu, 1, true)
-                --
-            end
-            Arta.Menus.LSCustoms:Visible(true)
-            Arta.Menus.LSCustoms:Title("Scaleform~HUD_COLOUR_PURPLE~UI")
-            Arta.Menus.LSCustoms:Subtitle("~p~Colored ~HUD_COLOUR_ORANGE~Subtitle")
-            menu:SwitchTo(Arta.Menus.LSCustoms, 1, true)
-end
-
 
 function Arta.MainMenu()
     local txd = CreateRuntimeTxd("scaleformui")
@@ -623,13 +551,71 @@ function Arta.MainMenu()
             local MyCarCustomsItem = UIMenuItem.New("LS Customs" , "Customization Menu")
             MyCarMenu:AddItem(MyCarCustomsItem)
             
+            --
+            Arta.Menus.LSCustoms = UIMenu.New("LS Customs", "Powered by Awesome ScaleformUI", 50, 50, true, "scaleformui", "menuBanner", true)
+            Arta.Menus.LSCustoms:MaxItemsOnScreen(7)
+            Arta.Menus.LSCustoms:MouseControlsEnabled(true)
+            Arta.Menus.LSCustoms:MouseEdgeEnabled(false)
+            Arta.Menus.LSCustoms:ControlDisablingEnabled(true)
+            Arta.Menus.LSCustoms:BuildingAnimation(MenuBuildingAnimation.RIGHT)
+            Arta.Menus.LSCustoms:AnimationType(MenuAnimationType.CUBIC_INOUT)
+            Arta.Menus.LSCustoms:ScrollingType(MenuScrollingType.CLASSIC)
+            Arta.Menus.LSCustoms:CounterColor(Colours.HUD_COLOUR_YELLOW)
+
+            local PaintshopMMItem = UIMenuItem.New("Paintshop","Paint it")
+            Arta.Menus.LSCustoms:AddItem(PaintshopMMItem)
+            --
+            local PaintMenu = UIMenu.New("Paintshop", "Powered by Awesome ScaleformUI", 50, 50, true, "scaleformui", "menuBanner", true)
+            PaintMenu:MaxItemsOnScreen(7)
+            PaintMenu:MouseControlsEnabled(true)
+            PaintMenu:MouseEdgeEnabled(false)
+            PaintMenu:ControlDisablingEnabled(true)
+            PaintMenu:BuildingAnimation(MenuBuildingAnimation.RIGHT)
+            PaintMenu:AnimationType(MenuAnimationType.CUBIC_INOUT)
+            PaintMenu:ScrollingType(MenuScrollingType.CLASSIC)
+            PaintMenu:CounterColor(Colours.HUD_COLOUR_YELLOW)
+        
+            --Paintshop ----SetVehicleColours(Arta.Player.Vehicle,colorIndex,colorIndex)
+            
+            Arta.PaintMenuItems = {}
+
+            local PriPaint = 1 
+            local SeconPaint = 1
+            
+            Arta.PaintMenuItems.PrimePaintPanelItem = UIMenuItem.New("Primary Color", 21, 24)
+            --Arta.PaintMenuItems.PrimePaintPanelItem:LeftBadge(BadgeStyle.STAR)
+            PaintMenu:AddItem(Arta.PaintMenuItems.PrimePaintPanelItem)
+                local PrimePaintIt = UIVehicleColorPickerPanel.New(1, "Primary", 6)
+                Arta.PaintMenuItems.PrimePaintPanelItem:AddSidePanel(PrimePaintIt)
+
+                PrimePaintIt.PickerSelect = function(menu, item, newindex)
+                    local message = "Primary Painted" .. newindex + 1
+                    PriPaint = newindex
+                    SetVehicleColours(Arta.Player.Vehicle,PriPaint,SeconPaint)
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+
+            
+            Arta.PaintMenuItems.SecondPaintPanelItem = UIMenuItem.New("Secondary Color", 21, 24)
+            --Arta.PaintMenuItems.SecondPaintPanelItem:LeftBadge(BadgeStyle.STAR)
+            PaintMenu:AddItem(Arta.PaintMenuItems.SecondPaintPanelItem)
+                local SecondPaintIt = UIVehicleColorPickerPanel.New(1, "Secondary", 6)
+                Arta.PaintMenuItems.SecondPaintPanelItem:AddSidePanel(SecondPaintIt)
+
+                SecondPaintIt.PickerSelect = function(menu, item, newindex)
+                    local message = "Secondary Painted" .. newindex + 1
+                    SeconPaint = newindex
+                    SetVehicleColours(Arta.Player.Vehicle,PriPaint,SeconPaint)
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+            --
+            PaintshopMMItem.Activated = function(menu, item)
+                menu:SwitchTo(PaintMenu, 1, true)
+            end
             -------------------------
             MyCarCustomsItem.Activated = function(menu, item) 
-                -- adds funtion to item and the function is scaleforms switchto 
-                print("ls function -1") -- debug 
-                Arta.LSCustoms()
-                print("ls item") --debug
-                --menu:SwitchTo(Arta.Menus.LSCustoms, 1, true)
+                -- adds funtion to item and the function is scaleforms switchto                 
+                menu:SwitchTo(Arta.Menus.LSCustoms, 1, true)
             end
         ------- Personal Vehicle Menu Register 
 
@@ -651,6 +637,7 @@ function Arta.MainMenu()
     ------------------------------------------------------------------------------------
 
 	for index, race in pairs(Arta.Timetrials.Races) do
+        local raceshown = false
 		--print(race.title) works
 		if race.isEnabled then
 				-- If we've received updated scores, display them 
@@ -705,26 +692,46 @@ function Arta.MainMenu()
                                         --CreateLobbyMenu()
                                       end
                                 TimeTrialMenu:AddItem(TrackScoreItem)   
+                                raceshown = true
 
                             end
 						end
 						--print(race.title)
-                        local TrackScoreItem = UIMenuItem.New(race.title,"~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
-                                --TrackScoreItem:LeftBadge(BadgeStyle.RACE_FLAG_PERSON)
-                                TrackScoreItem.Activated = function(menu, item)
-                                        SetNewWaypoint(DestX, DestY)
-                                        --CreateLobbyMenu()
-                                      end
-                        TimeTrialMenu:AddItem(TrackScoreItem)                         
+                        if raceshown == false then 
+                            --TrackScoreItem:LeftBadge(BadgeStyle.RACE_FLAG_PERSON)
+                            local TrackScoreItem = UIMenuItem.New(race.title,"~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
+                            TrackScoreItem.Activated = function(menu, item)
+                                SetNewWaypoint(DestX, DestY)
+                                --CreateLobbyMenu()
+                            end
+                            TimeTrialMenu:AddItem(TrackScoreItem)    
+                            raceshown = true
+                        end                     
 				end
 			else 
-                print("scores nil "..race.title) --debug
-                local TrackScoreItem = UIMenuItem.New(race.title, "~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
-				TimeTrialMenu:AddItem(TrackScoreItem)
+                --print("scores nil "..race.title) --debug
+                if raceshown == false then 
+                    --TrackScoreItem:LeftBadge(BadgeStyle.RACE_FLAG_PERSON)
+                    local TrackScoreItem = UIMenuItem.New(race.title,"~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
+                    TrackScoreItem.Activated = function(menu, item)
+                        SetNewWaypoint(DestX, DestY)
+                        --CreateLobbyMenu()
+                    end
+                    TimeTrialMenu:AddItem(TrackScoreItem)    
+                    raceshown = true
+                end  
             end
-            print("scores nil "..race.title) --debug
-                local TrackScoreItem = UIMenuItem.New(race.title, "~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
-				TimeTrialMenu:AddItem(TrackScoreItem)
+            --print("scores nil "..race.title) --debug
+            if raceshown == false then 
+                --TrackScoreItem:LeftBadge(BadgeStyle.RACE_FLAG_PERSON)
+                local TrackScoreItem = UIMenuItem.New(race.title,"~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
+                TrackScoreItem.Activated = function(menu, item)
+                    SetNewWaypoint(DestX, DestY)
+                    --CreateLobbyMenu()
+                end
+                TimeTrialMenu:AddItem(TrackScoreItem)    
+                raceshown = true
+            end  
 		end
 	end
 
@@ -882,6 +889,7 @@ function Arta.MainMenu()
     Arta.Menus.MainMenu:AddItem(colorItem)
     local sidePanelVehicleColor = UIVehicleColorPickerPanel.New(1, "ColorPicker", 6)
     colorItem:AddSidePanel(sidePanelVehicleColor)
+    
 
     local dynamicValue = 0
     local dynamicListItem = UIMenuDynamicListItem.New("Dynamic List Item",
