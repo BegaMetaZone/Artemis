@@ -15,7 +15,7 @@ Arta.Timetrials.RaceState = {
 }
 Arta.Player.IsDriving = false
 --local races = exports["timetrials"]:GetRaces()
-races = {
+local races = {
     {
         title = "TEST",                                                             -- Race title
         isEnabled = false,                                                          -- Enable the race
@@ -579,8 +579,13 @@ function Arta.MainMenu()
             
             Arta.PaintMenuItems = {}
 
+            local PaintSeperator1 = UIMenuSeparatorItem.New("Color Palette", true)
+            PaintMenu:AddItem(PaintSeperator1)
+
             local PriPaint = 1 
             local SeconPaint = 1
+            local PearlPaint = 1
+            local WheelPaint = 1
             
             Arta.PaintMenuItems.PrimePaintPanelItem = UIMenuItem.New("Primary Color", 21, 24)
             --Arta.PaintMenuItems.PrimePaintPanelItem:LeftBadge(BadgeStyle.STAR)
@@ -589,7 +594,7 @@ function Arta.MainMenu()
                 Arta.PaintMenuItems.PrimePaintPanelItem:AddSidePanel(PrimePaintIt)
 
                 PrimePaintIt.PickerSelect = function(menu, item, newindex)
-                    local message = "Primary Painted" .. newindex + 1
+                    local message = "Primary Painted >> " .. newindex + 1
                     PriPaint = newindex
                     SetVehicleColours(Arta.Player.Vehicle,PriPaint,SeconPaint)
                     ScaleformUI.Notifications:ShowNotification(message)
@@ -603,12 +608,53 @@ function Arta.MainMenu()
                 Arta.PaintMenuItems.SecondPaintPanelItem:AddSidePanel(SecondPaintIt)
 
                 SecondPaintIt.PickerSelect = function(menu, item, newindex)
-                    local message = "Secondary Painted" .. newindex + 1
+                    local message = "Secondary Painted >> " .. newindex + 1
                     SeconPaint = newindex
                     SetVehicleColours(Arta.Player.Vehicle,PriPaint,SeconPaint)
                     ScaleformUI.Notifications:ShowNotification(message)
                 end
-            --
+
+
+            Arta.PaintMenuItems.PearlPaintPanelItem = UIMenuItem.New("Pearlescent", 21, 24)
+            --Arta.PaintMenuItems.PearlPaintPanelItem:LeftBadge(BadgeStyle.STAR)
+            PaintMenu:AddItem(Arta.PaintMenuItems.PearlPaintPanelItem)
+                local PearlPaintIt = UIVehicleColorPickerPanel.New(1, "Pearlescent", 6)
+                Arta.PaintMenuItems.PearlPaintPanelItem:AddSidePanel(PearlPaintIt)
+
+                PearlPaintIt.PickerSelect = function(menu, item, newindex)
+                    local message = "Perl Coated >> " .. newindex + 1
+                    PearlPaint = newindex
+                    SetVehicleExtraColours(Arta.Player.Vehicle,PearlPaint,WheelPaint)
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+    
+            Arta.PaintMenuItems.WheelPaintPanelItem = UIMenuItem.New("Rim Color", 21, 24)
+            --Arta.PaintMenuItems.WheelPaintPanelItem:LeftBadge(BadgeStyle.STAR)
+            PaintMenu:AddItem(Arta.PaintMenuItems.WheelPaintPanelItem)
+                local WheelPaintIt = UIVehicleColorPickerPanel.New(1, "Rim Color", 6)
+                Arta.PaintMenuItems.WheelPaintPanelItem:AddSidePanel(WheelPaintIt)
+
+                WheelPaintIt.PickerSelect = function(menu, item, newindex)
+                    local message = "Rim Painted to >> " .. newindex + 1
+                    WheelPaint = newindex
+                    SetVehicleExtraColours(Arta.Player.Vehicle,PearlPaint,WheelPaint)
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+            
+            local ChameleonItem = UIMenuListItem.New("Chameleon Wrap", Arta.LSTables.paintsChameleon, "Wraps",
+                "Wrap it !"
+                , Colours.HUD_COLOUR_FREEMODE_DARK, Colours.HUD_COLOUR_FREEMODE)
+            PaintMenu:AddItem(ChameleonItem)
+
+            ChameleonItem.OnListSelected = function (menu, item, index)
+                local selectedName = Arta.LSTables.paintsChameleon[index].name
+                local selectedId = Arta.LSTables.paintsChameleon[index].id
+                
+                local message = "Wrap applied >> " .. selectedName
+                SetVehicleColours(Arta.Player.Vehicle, selectedId, selectedId)
+                ScaleformUI.Notifications:ShowNotification(message)
+            end
+            ----------------------------------------------
             PaintshopMMItem.Activated = function(menu, item)
                 menu:SwitchTo(PaintMenu, 1, true)
             end
