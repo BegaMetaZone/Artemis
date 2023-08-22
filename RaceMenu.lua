@@ -587,7 +587,7 @@ function Arta.MainMenu()
             local PearlPaint = 1
             local WheelPaint = 1
             
-            Arta.PaintMenuItems.PrimePaintPanelItem = UIMenuItem.New("Primary Color", 21, 24)
+            Arta.PaintMenuItems.PrimePaintPanelItem = UIMenuItem.New("Primary Color", "Primary Color")
             --Arta.PaintMenuItems.PrimePaintPanelItem:LeftBadge(BadgeStyle.STAR)
             PaintMenu:AddItem(Arta.PaintMenuItems.PrimePaintPanelItem)
                 local PrimePaintIt = UIVehicleColorPickerPanel.New(1, "Primary", 6)
@@ -595,13 +595,14 @@ function Arta.MainMenu()
 
                 PrimePaintIt.PickerSelect = function(menu, item, newindex)
                     local message = "Primary Painted >> " .. newindex + 1
-                    PriPaint = newindex
+                    PriPaint = newindex + 1
+                    SetVehicleModKit(Arta.Player.Vehicle, 0)
                     SetVehicleColours(Arta.Player.Vehicle,PriPaint,SeconPaint)
                     ScaleformUI.Notifications:ShowNotification(message)
                 end
 
             
-            Arta.PaintMenuItems.SecondPaintPanelItem = UIMenuItem.New("Secondary Color", 21, 24)
+            Arta.PaintMenuItems.SecondPaintPanelItem = UIMenuItem.New("Secondary Color", "Secondary Color")
             --Arta.PaintMenuItems.SecondPaintPanelItem:LeftBadge(BadgeStyle.STAR)
             PaintMenu:AddItem(Arta.PaintMenuItems.SecondPaintPanelItem)
                 local SecondPaintIt = UIVehicleColorPickerPanel.New(1, "Secondary", 6)
@@ -609,13 +610,14 @@ function Arta.MainMenu()
 
                 SecondPaintIt.PickerSelect = function(menu, item, newindex)
                     local message = "Secondary Painted >> " .. newindex + 1
-                    SeconPaint = newindex
+                    SeconPaint = newindex + 1
+                    SetVehicleModKit(Arta.Player.Vehicle, 0)
                     SetVehicleColours(Arta.Player.Vehicle,PriPaint,SeconPaint)
                     ScaleformUI.Notifications:ShowNotification(message)
                 end
 
 
-            Arta.PaintMenuItems.PearlPaintPanelItem = UIMenuItem.New("Pearlescent", 21, 24)
+            Arta.PaintMenuItems.PearlPaintPanelItem = UIMenuItem.New("Pearlescent", "Pearlescent Coating")
             --Arta.PaintMenuItems.PearlPaintPanelItem:LeftBadge(BadgeStyle.STAR)
             PaintMenu:AddItem(Arta.PaintMenuItems.PearlPaintPanelItem)
                 local PearlPaintIt = UIVehicleColorPickerPanel.New(1, "Pearlescent", 6)
@@ -623,12 +625,13 @@ function Arta.MainMenu()
 
                 PearlPaintIt.PickerSelect = function(menu, item, newindex)
                     local message = "Perl Coated >> " .. newindex + 1
-                    PearlPaint = newindex
+                    PearlPaint = newindex + 1
+                    SetVehicleModKit(Arta.Player.Vehicle, 0)
                     SetVehicleExtraColours(Arta.Player.Vehicle,PearlPaint,WheelPaint)
                     ScaleformUI.Notifications:ShowNotification(message)
                 end
     
-            Arta.PaintMenuItems.WheelPaintPanelItem = UIMenuItem.New("Rim Color", 21, 24)
+            Arta.PaintMenuItems.WheelPaintPanelItem = UIMenuItem.New("Rim Color", "Rim Color")
             --Arta.PaintMenuItems.WheelPaintPanelItem:LeftBadge(BadgeStyle.STAR)
             PaintMenu:AddItem(Arta.PaintMenuItems.WheelPaintPanelItem)
                 local WheelPaintIt = UIVehicleColorPickerPanel.New(1, "Rim Color", 6)
@@ -636,21 +639,29 @@ function Arta.MainMenu()
 
                 WheelPaintIt.PickerSelect = function(menu, item, newindex)
                     local message = "Rim Painted to >> " .. newindex + 1
-                    WheelPaint = newindex
+                    WheelPaint = newindex + 1
+                    SetVehicleModKit(Arta.Player.Vehicle, 0)
                     SetVehicleExtraColours(Arta.Player.Vehicle,PearlPaint,WheelPaint)
                     ScaleformUI.Notifications:ShowNotification(message)
                 end
             
-            local ChameleonItem = UIMenuListItem.New("Chameleon Wrap", Arta.LSTables.paintsChameleon, "Wraps",
-                "Wrap it !"
-                , Colours.HUD_COLOUR_FREEMODE_DARK, Colours.HUD_COLOUR_FREEMODE)
+            local chameleonNames = {}  -- Create an array to store the chameleon names
+
+                for _, paint in ipairs(ArtaConf.LSTables.paintsChameleon) do
+                    table.insert(chameleonNames, paint.name)  -- Extract and add names to the array
+                end
+                
+            local ChameleonItem = UIMenuListItem.New("Chameleon Wrap", chameleonNames, "Wraps",
+                "Wrap it !")
             PaintMenu:AddItem(ChameleonItem)
+                
 
             ChameleonItem.OnListSelected = function (menu, item, index)
-                local selectedName = Arta.LSTables.paintsChameleon[index].name
-                local selectedId = Arta.LSTables.paintsChameleon[index].id
-                
-                local message = "Wrap applied >> " .. selectedName
+                local selectedName = ArtaConf.LSTables.paintsChameleon[index].name
+                local selectedId = ArtaConf.LSTables.paintsChameleon[index].id
+                print(selectedId)
+                local message = "Wrap applied >> " .. selectedName .. selectedId
+                SetVehicleModKit(Arta.Player.Vehicle, 0)
                 SetVehicleColours(Arta.Player.Vehicle, selectedId, selectedId)
                 ScaleformUI.Notifications:ShowNotification(message)
             end
@@ -730,15 +741,18 @@ function Arta.MainMenu()
                                     --CreateLobbyMenu()
                                   end                      
                                 if Arta.Player.Name == TTTKing then TrackScoreItem:LeftBadge(BadgeStyle.Crown) end -- player is the top leaderboard , future SpeedMaster/ Drift King - badge should be changed according to ScaleUI 
+                                raceshown = true
                             else
-                                local TrackScoreItem = UIMenuItem.New(race.title,"~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
-                                --TrackScoreItem:LeftBadge(BadgeStyle.RACE_FLAG_PERSON)
-                                TrackScoreItem.Activated = function(menu, item)
+                                if raceshown == false then 
+                                    --TrackScoreItem:LeftBadge(BadgeStyle.RACE_FLAG_PERSON)
+                                    local TrackScoreItem = UIMenuItem.New(race.title,"~HUD_COLOUR_GOLD~Leaderboard King : " .. "N/A" .. "~n~Vehicle                  : " .. "N/A" .. "~n~Time                      : " .. "N/A" .. " s")
+                                    TrackScoreItem.Activated = function(menu, item)
                                         SetNewWaypoint(DestX, DestY)
                                         --CreateLobbyMenu()
-                                      end
-                                TimeTrialMenu:AddItem(TrackScoreItem)   
-                                raceshown = true
+                                    end
+                                    TimeTrialMenu:AddItem(TrackScoreItem)    
+                                    raceshown = true
+                                end  
 
                             end
 						end

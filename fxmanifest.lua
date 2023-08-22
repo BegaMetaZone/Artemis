@@ -6,6 +6,10 @@ description "RaceMenu powered by ScaleformUI project , a standalone menu to mana
 author "BegaMetaZone" 
 version "1.0.0"
 
+files { "carcols_gen9.meta", "carmodcols_gen9.meta" }
+data_file "CARCOLS_GEN9_FILE" "carcols_gen9.meta"
+data_file "CARMODCOLS_GEN9_FILE" "carmodcols_gen9.meta"
+
 shared_script {'config.lua'}
 
 client_scripts {

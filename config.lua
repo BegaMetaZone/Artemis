@@ -1,6 +1,7 @@
-Arta.LSTables = {} -- these are taken from https://github.com/Blumlaut/fivem-lscustoms-es/blob/master/client.lua , make sure to show ur love to the source , I'll be including a link in the final readme with details
+ArtaConf = {}
+ArtaConf.LSTables = {} -- these are taken from https://github.com/Blumlaut/fivem-lscustoms-es/blob/master/client.lua , make sure to show ur love to the source , I'll be including a link in the final readme with details
 
-Arta.TimetrialRaces = {
+ArtaConf.TimetrialRaces = {
     {
         title = "TEST",                                                             -- Race title
         isEnabled = false,                                                          -- Enable the race
@@ -484,7 +485,7 @@ Arta.TimetrialRaces = {
     }
 }
 
-Arta.LSTables.vehicleMods = {
+ArtaConf.LSTables.vehicleMods = {
 	{name = "Spoilers", id = 0},
 	{name = "Front Bumper", id = 1},
 	{name = "Rear Bumper", id = 2},
@@ -527,14 +528,14 @@ Arta.LSTables.vehicleMods = {
 }
 
 
-Arta.LSTables.perfMods = {
+ArtaConf.LSTables.perfMods = {
 	{name = "Engine", id = 11},
 	{name = "Brakes", id = 12},
 	{name = "Transmission", id = 13},
 	{name = "Suspension", id = 15},
 }
 
-Arta.LSTables.horns = {
+ArtaConf.LSTables.horns = {
 	["HORN_STOCK"] = -1,
 	["Truck Horn"] = 1,
 	["Police Horn"] = 2,
@@ -575,7 +576,7 @@ Arta.LSTables.horns = {
 }
 
 
-Arta.LSTables.neonColors = {
+ArtaConf.LSTables.neonColors = {
 	["White"] = {255,255,255},
 	["Blue"] ={0,0,255},
 	["Electric Blue"] ={0,150,255},
@@ -590,7 +591,7 @@ Arta.LSTables.neonColors = {
 	["Purple"] ={153,0,153},
 }
 
-Arta.LSTables.paintsClassic = { -- kill me pls 
+ArtaConf.LSTables.paintsClassic = { -- kill me pls 
 	{name = "Black", id = 0},
 	{name = "Carbon Black", id = 147},
 	{name = "Graphite", id = 1},
@@ -669,7 +670,7 @@ Arta.LSTables.paintsClassic = { -- kill me pls
 }
 
 
-Arta.LSTables.paintsMatte = {
+ArtaConf.LSTables.paintsMatte = {
 	{name = "Black", id = 12},
 	{name = "Gray", id = 13},
 	{name = "Light Gray", id = 14},
@@ -692,7 +693,7 @@ Arta.LSTables.paintsMatte = {
 	{name = "Desert Tan", id = 154},
 }
 
-Arta.LSTables.paintsMetal = {
+ArtaConf.LSTables.paintsMetal = {
 	{name = "Brushed Steel", id = 117},
 	{name = "Brushed Black Steel", id = 118},
 	{name = "Brushed Aluminum", id = 119},
@@ -700,7 +701,7 @@ Arta.LSTables.paintsMetal = {
 	{name = "Brushed Gold", id = 159},
 }
 
-Arta.LSTables.paintsChameleon = {
+ArtaConf.LSTables.paintsChameleon = {
     {name = "Red Anodized", id = 161},
     {name = "Wine Anodized", id = 162},
     {name = "Purple Anodized", id = 163},
