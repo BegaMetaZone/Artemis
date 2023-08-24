@@ -562,10 +562,10 @@ function Arta.MainMenu()
             Arta.Menus.LSCustoms:ScrollingType(MenuScrollingType.CLASSIC)
             Arta.Menus.LSCustoms:CounterColor(Colours.HUD_COLOUR_YELLOW)
 
-            local PaintshopMMItem = UIMenuItem.New("Paintshop","Paint it")
+            local PaintshopMMItem = UIMenuItem.New("Paintshop >>>","Paint it")
             Arta.Menus.LSCustoms:AddItem(PaintshopMMItem)
             --
-            local PaintMenu = UIMenu.New("Paintshop", "Powered by Awesome ScaleformUI", 50, 50, true, "scaleformui", "menuBanner", true)
+            local PaintMenu = UIMenu.New("Paintshop", "So you think you can Design", 50, 50, true, "scaleformui", "menuBanner", true)
             PaintMenu:MaxItemsOnScreen(7)
             PaintMenu:MouseControlsEnabled(true)
             PaintMenu:MouseEdgeEnabled(false)
@@ -579,13 +579,12 @@ function Arta.MainMenu()
             
             Arta.PaintMenuItems = {}
 
-            local PaintSeperator1 = UIMenuSeparatorItem.New("Color Palette", true)
-            PaintMenu:AddItem(PaintSeperator1)
-
             local PriPaint = 1 
             local SeconPaint = 1
             local PearlPaint = 1
             local WheelPaint = 1
+            local DashPaint = 1
+            local InterPaint = 1
             
             Arta.PaintMenuItems.PrimePaintPanelItem = UIMenuItem.New("Primary Color", "Primary Color")
             --Arta.PaintMenuItems.PrimePaintPanelItem:LeftBadge(BadgeStyle.STAR)
@@ -645,6 +644,36 @@ function Arta.MainMenu()
                     ScaleformUI.Notifications:ShowNotification(message)
                 end
             
+
+            Arta.PaintMenuItems.DashPaintPanelItem = UIMenuItem.New("Dashboard Color", "Dashboard Color")
+            PaintMenu:AddItem(Arta.PaintMenuItems.DashPaintPanelItem)
+                local DashPaintIt = UIVehicleColorPickerPanel.New(1, "Dashboard Color", 6)
+                Arta.PaintMenuItems.DashPaintPanelItem:AddSidePanel(DashPaintIt)
+
+                DashPaintIt.PickerSelect = function(menu, item, newindex)
+                    local message = "Dashboard Painted to >> " .. newindex + 1
+                    DashPaint = newindex + 1
+                    SetVehicleModKit(Arta.Player.Vehicle, 0)
+                    SetVehicleDashboardColor(Arta.Player.Vehicle,DashPaint)
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+
+            Arta.PaintMenuItems.InterPaintPanelItem = UIMenuItem.New("Interior Color", "Interior Color")
+            PaintMenu:AddItem(Arta.PaintMenuItems.InterPaintPanelItem)
+                local InterPaintIt = UIVehicleColorPickerPanel.New(1, "Interior Color", 6)
+                Arta.PaintMenuItems.InterPaintPanelItem:AddSidePanel(InterPaintIt)
+
+                InterPaintIt.PickerSelect = function(menu, item, newindex)
+                    local message = "Interior Painted to >> " .. newindex + 1
+                    InterPaint = newindex + 1
+                    SetVehicleModKit(Arta.Player.Vehicle, 0)
+                    SetVehicleInteriorColor(Arta.Player.Vehicle,InterPaint)
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+
+            local PaintSeperator2 = UIMenuSeparatorItem.New("Wraps and Livery", true)
+            PaintMenu:AddItem(PaintSeperator2)
+            
             local chameleonNames = {}  -- Create an array to store the chameleon names
 
                 for _, paint in ipairs(ArtaConf.LSTables.paintsChameleon) do
@@ -652,7 +681,7 @@ function Arta.MainMenu()
                 end
                 
             local ChameleonItem = UIMenuListItem.New("Chameleon Wrap", chameleonNames, "Wraps",
-                "Wrap it !")
+                "Wrap it!")
             PaintMenu:AddItem(ChameleonItem)
                 
 
@@ -660,14 +689,75 @@ function Arta.MainMenu()
                 local selectedName = ArtaConf.LSTables.paintsChameleon[index].name
                 local selectedId = ArtaConf.LSTables.paintsChameleon[index].id
                 print(selectedId)
-                local message = "Wrap applied >> " .. selectedName .. selectedId
+                local message = "Wrap applied >> " .. selectedName .. " / " .. selectedId
                 SetVehicleModKit(Arta.Player.Vehicle, 0)
                 SetVehicleColours(Arta.Player.Vehicle, selectedId, selectedId)
                 ScaleformUI.Notifications:ShowNotification(message)
             end
+            local LiveryCount = -1
+            if GetNumVehicleMods(Arta.Player.Vehicle,48) then 
+                    LiveryCount = GetNumVehicleMods(Arta.Player.Vehicle,48)
+                    print(LiveryCount)
+                else 
+                    LiveryCount = -1
+            end
+            print("LiveryCount is " .. LiveryCount )
+            if LiveryCount ~= -1 then 
+
+                local LiveryItem = UIMenuListItem.New("Livery", LiveryCount, "Livery","Pimp it!")
+                PaintMenu:AddItem(LiveryItem)
+                LiveryItem.OnListSelected = function (menu, item, index)
+                    SetVehicleMod(Arta.Player.Vehicle,48,LiveryCount[index + 1])
+                    local message = "Livery applied >> " .. index + 1
+                    ScaleformUI.Notifications:ShowNotification(message)
+                end
+            else
+                local LiveryItem = UIMenuListItem.New("Livery", LiveryCount, "Livery","Pimp it!")
+                LiveryItem:Enabled(false)
+                PaintMenu:AddItem(LiveryItem)
+            end
+
             ----------------------------------------------
             PaintshopMMItem.Activated = function(menu, item)
                 menu:SwitchTo(PaintMenu, 1, true)
+            end
+            -------------------------
+            --------------------------------------------------------------------
+            ---------------------- LS Customs Performance ----------------------
+            --------------------------------------------------------------------
+            
+            local PerformanceMMItem = UIMenuItem.New("Performance >>>","Tune it!")
+            Arta.Menus.LSCustoms:AddItem(PerformanceMMItem)
+            --
+            local PerformanceMenu = UIMenu.New("[Performance]", "Don't fear the reaper", 50, 50, true, "scaleformui", "menuBanner", true)
+            PerformanceMenu:MaxItemsOnScreen(7)
+            PerformanceMenu:MouseControlsEnabled(true)
+            PerformanceMenu:MouseEdgeEnabled(false)
+            PerformanceMenu:ControlDisablingEnabled(true)
+            PerformanceMenu:BuildingAnimation(MenuBuildingAnimation.RIGHT)
+            PerformanceMenu:AnimationType(MenuAnimationType.CUBIC_INOUT)
+            PerformanceMenu:ScrollingType(MenuScrollingType.CLASSIC)
+            PerformanceMenu:CounterColor(Colours.HUD_COLOUR_YELLOW)
+
+
+
+            -----------------------------------------------
+            for _, mod in ipairs(ArtaConf.LSTables.perfMods) do
+                print("Name: " .. mod.name)
+                print("ID: " .. mod.id)
+                local PerformanceItem = UIMenuListItem.New(mod.name, {1,2,3,4}, mod.name,mod.name .. " it!")
+                PerformanceMenu:AddItem(PerformanceItem)
+                PerformanceItem.OnListSelected = function (menu, item, index)
+                    SetVehicleMod(Arta.Player.Vehicle,mod.id,index - 1,false)
+                    --local message = mod.name "upgrade applied >> " .. index
+                    --ScaleformUI.Notifications:ShowNotification(message)
+                end
+
+            end
+            
+            ----------------------------------------------
+            PerformanceMMItem.Activated = function(menu, item)
+                menu:SwitchTo(PerformanceMenu, 1, true)
             end
             -------------------------
             MyCarCustomsItem.Activated = function(menu, item) 

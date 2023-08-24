@@ -577,18 +577,18 @@ ArtaConf.LSTables.horns = {
 
 
 ArtaConf.LSTables.neonColors = {
-	["White"] = {255,255,255},
-	["Blue"] ={0,0,255},
-	["Electric Blue"] ={0,150,255},
-	["Mint Green"] ={50,255,155},
-	["Lime Green"] ={0,255,0},
-	["Yellow"] ={255,255,0},
-	["Golden Shower"] ={204,204,0},
-	["Orange"] ={255,128,0},
-	["Red"] ={255,0,0},
-	["Pony Pink"] ={255,102,255},
-	["Hot Pink"] ={255,0,255},
-	["Purple"] ={153,0,153},
+	["White"] =         {255,255,255},
+	["Blue"] =          {0,0,255},
+	["Electric Blue"] = {0,150,255},
+	["Mint Green"] =    {50,255,155},
+	["Lime Green"] =    {0,255,0},
+	["Yellow"] =        {255,255,0},
+	["Golden Shower"] = {204,204,0},
+	["Orange"] =        {255,128,0},
+	["Red"] =           {255,0,0},
+	["Pony Pink"] =     {255,102,255},
+	["Hot Pink"] =      {255,0,255},
+	["Purple"] =        {153,0,153},
 }
 
 ArtaConf.LSTables.paintsClassic = { -- kill me pls 
