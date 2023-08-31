@@ -6,14 +6,16 @@ description "Project Artemis powered by ScaleformUI project , a standalone menu 
 author "BegaMetaZone" 
 version "1.0.1"
 
-files { "carcols_gen9.meta", "data/carmodcols_gen9.meta" }
+files { "data/carcols_gen9.meta", "data/carmodcols_gen9.meta" }
 data_file "CARCOLS_GEN9_FILE" "data/carcols_gen9.meta"
 data_file "CARMODCOLS_GEN9_FILE" "data/carmodcols_gen9.meta"
 
-shared_script {'conf/*.lua'}
+shared_script {'shared/*.lua'}
 
 client_scripts {
 	"@ScaleformUI_Lua/ScaleformUI.lua",
+	'@mysql-async/lib/MySQL.lua',
+
 	"client/*.lua"
 }
 

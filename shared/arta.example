@@ -1,0 +1,18 @@
+local player = Player.new(1, 'John Doe')
+local garage = Garage.new(1, 'Garage 1')
+player:addGarage(garage)
+garage:save() -- save the garage
+
+local vehicle = Vehicle.new(1, 'Car 1')
+garage:addVehicle(vehicle)
+vehicle:save() -- save the vehicle
+
+
+local player = Player.new(1, 'John Doe', 1000, 2000, 0.01) -- John Doe has 1000 cash, 2000 in bank, and 0.01 crypto
+player:save() -- save the player
+
+
+
+local player = Player.new(1, 'John Doe', 1000, 2000)
+player:addMoney('bmz', 2) -- add 2 bmz coins
+player:addMoney('arta', 10) -- add 10 arta coins

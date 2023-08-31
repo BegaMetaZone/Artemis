@@ -1,10 +1,8 @@
-Arta = {}
 Arta.Menus = {}
 Arta.VehInfo = {} 
 Arta.Config = {}
 Arta.Timetrials = {}
 Arta.Timetrials.Races = {}
-Arta.Player = {}
 Arta.Timetrials.RaceState = {
     cP = 1,
     index = 0 ,
@@ -503,7 +501,7 @@ Arta.Timetrials.Races = races
 --------------------
 
 ---------------------
-Arta.Player.Name = GetPlayerName(PlayerId())
+
 
 function ListofHighValue(variable)
     local list = {}
@@ -533,8 +531,8 @@ function Arta.MainMenu()
         Arta.Player.IsDriving = true
     end
 	--
-
-    Arta.Menus.MainMenu = UIMenu.New(Arta.Player.Name, "Arta.Player.Name", 50, 50, true, "scaleformui", "menuBanner", true)
+    Arta.Player.name = GetPlayerName(PlayerId())
+    Arta.Menus.MainMenu = UIMenu.New(Arta.Player.name, Arta.Player.name, 50, 50, false, "scaleformui", "menuBanner", true)
     Arta.Menus.MainMenu:MaxItemsOnScreen(7)
     Arta.Menus.MainMenu:MouseControlsEnabled(true)
     Arta.Menus.MainMenu:MouseEdgeEnabled(false)
@@ -556,13 +554,13 @@ function Arta.MainMenu()
         local MyCarMainItem = UIMenuItem.New("Personal Vehicle" , "Personal Vehicle Menu")
         Arta.Menus.MainMenu:AddItem(MyCarMainItem)
         
-        local MyCarMenu = UIMenu.New("Personal Vehicle", "Personal Vehicle", 50, 50, true, nil, nil, true)
+        local MyCarMenu = UIMenu.New("Personal Vehicle", "Personal Vehicle", 50, 50, false, nil, nil, true)
         --------- Pimp My Ride -- Arta.Menus.MainMenu Customs 
             local MyCarCustomsItem = UIMenuItem.New("LS Customs" , "Customization Menu")
             MyCarMenu:AddItem(MyCarCustomsItem)
             
             --
-            Arta.Menus.LSCustoms = UIMenu.New("LS Customs", "Powered by Awesome ScaleformUI", 50, 50, true, "scaleformui", "menuBanner", true)
+            Arta.Menus.LSCustoms = UIMenu.New("LS Customs", "Powered by Awesome ScaleformUI", 50, 50, false, "scaleformui", "menuBanner", true)
             Arta.Menus.LSCustoms:MaxItemsOnScreen(7)
             Arta.Menus.LSCustoms:MouseControlsEnabled(true)
             Arta.Menus.LSCustoms:MouseEdgeEnabled(false)
@@ -575,7 +573,7 @@ function Arta.MainMenu()
             local PaintshopMMItem = UIMenuItem.New("Paintshop >>>","Paint it")
             Arta.Menus.LSCustoms:AddItem(PaintshopMMItem)
             --
-            local PaintMenu = UIMenu.New("Paintshop", "So you think you can Design", 50, 50, true, "scaleformui", "menuBanner", true)
+            local PaintMenu = UIMenu.New("Paintshop", "So you think you can Design", 50, 50, false, "scaleformui", "menuBanner", true)
             PaintMenu:MaxItemsOnScreen(7)
             PaintMenu:MouseControlsEnabled(true)
             PaintMenu:MouseEdgeEnabled(false)
@@ -707,7 +705,6 @@ function Arta.MainMenu()
             local LiveryCount = -1
             if GetNumVehicleMods(Arta.Player.Vehicle,48) then 
                     LiveryCount = GetNumVehicleMods(Arta.Player.Vehicle,48)
-                    print(LiveryCount)
                 else 
                     LiveryCount = -1
             end
@@ -716,7 +713,6 @@ function Arta.MainMenu()
             for i = -1, LiveryCount do
                 table.insert(LiveryValues, i)
             end
-                print(LiveryValues)
             if LiveryCount ~= 0 then 
                 local LiveryItem = UIMenuListItem.New("Livery", LiveryValues, "Livery","Pimp it!")
                 PaintMenu:AddItem(LiveryItem)
@@ -743,7 +739,7 @@ function Arta.MainMenu()
             local PerformanceMMItem = UIMenuItem.New("Performance >>>","Tune it!")
             Arta.Menus.LSCustoms:AddItem(PerformanceMMItem)
             --
-            local PerformanceMenu = UIMenu.New("[Performance]", "Don't fear the reaper", 50, 50, true, "scaleformui", "menuBanner", true)
+            local PerformanceMenu = UIMenu.New("[Performance]", "Don't fear the reaper", 50, 50, false, "scaleformui", "menuBanner", true)
             PerformanceMenu:MaxItemsOnScreen(7)
             PerformanceMenu:MouseControlsEnabled(true)
             PerformanceMenu:MouseEdgeEnabled(false)
@@ -756,27 +752,57 @@ function Arta.MainMenu()
 
 
             -----------------------------------------------
-            for _, mod in ipairs(ArtaConf.LSTables.perfMods) do
-                --print("Name: " .. mod.name)
-                --print("ID: " .. mod.id)
-                local PerformanceItem = UIMenuListItem.New(mod.name, {1,2,3,4}, mod.name,mod.name .. " it!")
-                PerformanceMenu:AddItem(PerformanceItem)
-                PerformanceMenu:Index(GetVehicleMod(Arta.Player.Vehicle,mod.id))
-                PerformanceItem.OnListSelected = function (menu, item, index)
-                    SetVehicleMod(Arta.Player.Vehicle,mod.id,index - 1,false)
-                    --local message = mod.name "upgrade applied >> " .. index
-                    --ScaleformUI.Notifications:ShowNotification(message)
+            if Arta.Player.IsDriving then
+                for _, mod in ipairs(ArtaConf.LSTables.perfMods) do
+                    --print("Name: " .. mod.name)
+                    --print("ID: " .. mod.id)
+
+                    local ModCount = 0
+                    local ModValues = {}
+
+                    if GetNumVehicleMods(Arta.Player.Vehicle,mod.id) then 
+                           ModCount = GetNumVehicleMods(Arta.Player.Vehicle,mod.id)
+                           --print(ModCount)
+                       else 
+                           ModCount = 0
+                    end
+
+                        --print("ModCount for " .. mod.name .. " is " .. ModCount )
+                    if ModCount ~= 0 then 
+                        for i = -1, ModCount - 1 do
+                            table.insert(ModValues, i)
+                        end
+                       local ModItem = UIMenuListItem.New(mod.name, ModValues, mod.name,"Upgrade " .. mod.name)
+                       PerformanceMenu:AddItem(ModItem)
+                       if GetVehicleMod(Arta.Player.Vehicle,mod.id) then 
+                        ModItem:Index(GetVehicleMod(Arta.Player.Vehicle,mod.id))
+                        end
+                       ModItem.OnListSelected = function (menu, item, index)
+                           SetVehicleMod(Arta.Player.Vehicle,mod.id,ModValues[index])
+                           local message = mod.name .. " Ugraded to stage >> " .. index
+                           ScaleformUI.Notifications:ShowNotification(message)
+                       end                       
+                    else
+                       --local ModItem = UIMenuListItem.New(mod.name, ModValues, mod.name,"Not Available!")
+                       --ModItem:Enabled(false)
+                       --CosmeticsMenu:AddItem(ModItem)
+                    end                    
                 end
-            end
-            
-            local TurboIndex = GetVehicleMod(Arta.Player.Vehicle,18)
-            local TurboItem = UIMenuCheckboxItem.New("Turbo", TurboIndex, 1, "Supercharge it!")
-            PerformanceMenu:AddItem(TurboItem)
-            PerformanceMenu.OnCheckboxChanged = function(menu, item, checked)
+                local TurboIndex = false
+                if GetVehicleMod(Arta.Player.Vehicle,18) == 0 then TurboIndex = true end
+                local TurboItem = UIMenuCheckboxItem.New("Turbo", TurboIndex, 1, "Supercharge it!")
+                PerformanceMenu:AddItem(TurboItem)
+                PerformanceMenu.OnCheckboxChanged = function(menu, item, checked)
                 if TurboIndex == false then TurboIndex = true 
                 else TurboIndex = false end
                 SetVehicleMod(Arta.Player.Vehicle,18,TurboIndex,false)
+                end
+            else
+                local CosmeticsItem = UIMenuItem.New("<<< YOU HAVE NO CAR >>>","Steal it!")
+                CosmeticsMenu:AddItem(CosmeticsItem)
             end
+            
+            
 
             ----------------------------------------------
             PerformanceMMItem.Activated = function(menu, item)
@@ -790,7 +816,7 @@ function Arta.MainMenu()
             local CosmeticsMMItem = UIMenuItem.New("Bodyworks >>>","Bodykit it!")
             Arta.Menus.LSCustoms:AddItem(CosmeticsMMItem)
             --
-            local CosmeticsMenu = UIMenu.New("Cosmetics", "Big Spoiler means Big dick so ...", 50, 50, true, "scaleformui", "menuBanner", true)
+            local CosmeticsMenu = UIMenu.New("Cosmetics", "Big Spoiler means Big dick so ...", 50, 50, false, "scaleformui", "menuBanner", true)
             CosmeticsMenu:MaxItemsOnScreen(7)
             CosmeticsMenu:MouseControlsEnabled(true)
             CosmeticsMenu:MouseEdgeEnabled(false)
@@ -819,11 +845,14 @@ function Arta.MainMenu()
 
                         --print("ModCount for " .. mod.name .. " is " .. ModCount )
                     if ModCount ~= 0 then 
-                        for i = -1, ModCount do
+                        for i = -1, ModCount - 1 do
                             table.insert(ModValues, i)
                         end
                        local ModItem = UIMenuListItem.New(mod.name, ModValues, mod.name,"Upgrade " .. mod.name)
                        CosmeticsMenu:AddItem(ModItem)
+                       if GetVehicleMod(Arta.Player.Vehicle,mod.id) then 
+                        ModItem:Index(GetVehicleMod(Arta.Player.Vehicle,mod.id))
+                        end
                        ModItem.OnListSelected = function (menu, item, index)
                            SetVehicleMod(Arta.Player.Vehicle,mod.id,ModValues[index])
                            local message = mod.name .. " Ugraded to stage >> " .. index
@@ -860,7 +889,7 @@ function Arta.MainMenu()
 
     local TimeTrialItem = UIMenuItem.New("Time Trials", "leaderboard")
     Arta.Menus.MainMenu:AddItem(TimeTrialItem)
-    local TimeTrialMenu = UIMenu.New("TimeTrials", "Time Trial Races", 50, 50, true, nil, nil, true)
+    local TimeTrialMenu = UIMenu.New("TimeTrials", "Time Trial Races", 50, 50, false, nil, nil, true)
 	-- populate menu with races 
 	-- we're gonna use this for template UIMenuItem.New(text, description, color, highlightColor, textColor, highlightedTextColor)
 	-- and smtn like this is also used to register it , TimeTrialMenu:AddItem(uiItemTransitionList)
@@ -915,7 +944,7 @@ function Arta.MainMenu()
                                 --    RMSetWayPoint(DestX, DestY)
                                     --CreateLobbyMenu()
                                   end                      
-                                if Arta.Player.Name == TTTKing then TrackScoreItem:LeftBadge(BadgeStyle.Crown) end -- player is the top leaderboard , future SpeedMaster/ Drift King - badge should be changed according to ScaleUI 
+                                if Arta.Player.name == TTTKing then TrackScoreItem:LeftBadge(BadgeStyle.Crown) end -- player is the top leaderboard , future SpeedMaster/ Drift King - badge should be changed according to ScaleUI 
                                 raceshown = true
                             else
                                 if raceshown == false then 
